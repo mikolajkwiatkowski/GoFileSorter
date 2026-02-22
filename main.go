@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func listFiles(path string) ([]string, error) {
@@ -14,8 +15,6 @@ func listFiles(path string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// _ uzywamy gdy chcemy tylko wartosc bez indeksu
 	for _, entry := range entries {
 		if !entry.IsDir() {
 			fileList = append(fileList, entry.Name())
@@ -71,7 +70,7 @@ func sortFiles(fileList []string, basePath string) {
 			newPath = filepath.Join(basePath, "videos", file)
 		} else if ext == ".mp3" {
 			newPath = filepath.Join(basePath, "sounds", file)
-		} else if ext == ".exe" {
+		} else if ext == ".exe" && strings.TrimSuffix(file, filepath.Ext(file)) != "sorter" {
 			newPath = filepath.Join(basePath, "executables", file)
 		} else if ext == ".pptx" {
 			newPath = filepath.Join(basePath, "presentations", file)
